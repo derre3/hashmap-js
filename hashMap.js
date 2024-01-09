@@ -83,7 +83,10 @@ function HashMap() {
     const bucket = getBucket();
     let prev;
     let cur = bucket[hashCode].head;
-    if (cur.key === key) return (bucket[hashCode].head = cur.next);
+    if (cur.key === key) {
+      if (cur.next === null) return (bucket[hashCode] = undefined);
+      else return (bucket[hashCode].head = cur.next);
+    }
     while (cur) {
       prev = cur;
       cur = cur.next;
