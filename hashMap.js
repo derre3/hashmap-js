@@ -4,14 +4,13 @@ function HashMap() {
   let bucketSize = 16;
   let bucket = new Array(bucketSize);
 
-  const getSize = () => size;
   const getBucket = () => bucket;
   const getBucketSize = () => bucketSize;
 
   const growBucketSize = () => {
     const oldBucket = bucket;
     size = 0;
-    bucketSize = bucketSize * 2;
+    bucketSize *= 2;
     bucket = new Array(bucketSize);
     oldBucket.forEach((node) => {
       if (node === undefined) return;
@@ -50,7 +49,8 @@ function HashMap() {
       }
       cur.next = node;
     }
-    if (getSize() / getBucketSize() >= loadFactor) growBucketSize();
+    if (getBucket().flat().length / getBucketSize() >= loadFactor)
+      growBucketSize();
   };
 
   const get = (key) => {
@@ -83,6 +83,7 @@ function HashMap() {
     const bucket = getBucket();
     let prev;
     let cur = bucket[hashCode].head;
+    size -= 1;
     if (cur.key === key) {
       if (cur.next === null) return (bucket[hashCode] = undefined);
       else return (bucket[hashCode].head = cur.next);
@@ -97,18 +98,7 @@ function HashMap() {
     }
   };
 
-  const length = () => {
-    let len = 0;
-    const bucket = getBucket();
-    bucket.forEach((node) => {
-      let cur = node.head;
-      while (cur) {
-        len += 1;
-        cur = cur.next;
-      }
-    });
-    return len;
-  };
+  const length = () => size;
 
   const clear = () => {
     size = 0;
@@ -120,6 +110,7 @@ function HashMap() {
     let keysArr = [];
     const bucket = getBucket();
     bucket.forEach((node) => {
+      if (node === undefined) return;
       let cur = node.head;
       while (cur) {
         keysArr.push(cur.key);
@@ -133,6 +124,7 @@ function HashMap() {
     let valuesArr = [];
     const bucket = getBucket();
     bucket.forEach((node) => {
+      if (node === undefined) return;
       let cur = node.head;
       while (cur) {
         valuesArr.push(cur.value);
@@ -146,6 +138,7 @@ function HashMap() {
     let entriesArr = [];
     const bucket = getBucket();
     bucket.forEach((node) => {
+      if (node === undefined) return;
       let cur = node.head;
       while (cur) {
         entriesArr.push([cur.key, cur.value]);
