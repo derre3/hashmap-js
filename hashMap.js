@@ -53,5 +53,46 @@ function HashMap() {
     if (getSize() / getBucketSize() >= loadFactor) growBucketSize();
   };
 
-  return { set, getBucket };
+  const get = (key) => {
+    const hashCode = hash(key);
+    const bucket = getBucket();
+    if (!bucket[hashCode]) return null;
+    let cur = bucket[hashCode].head;
+    while (cur) {
+      if (cur.key === key) break;
+      cur = cur.next;
+    }
+    return cur;
+  };
+
+  const has = (key) => {
+    const hashCode = hash(key);
+    const bucket = getBucket();
+    if (!bucket[hashCode]) return false;
+    let cur = bucket[hashCode].head;
+    while (cur) {
+      if (cur.key === key) break;
+      cur = cur.next;
+    }
+    return cur ? true : false;
+  };
+
+  const remove = (key) => {
+    if (!has(key)) return;
+    const hashCode = hash(key);
+    const bucket = getBucket();
+    let prev;
+    let cur = bucket[hashCode].head;
+    if (cur.key === key) return (bucket[hashCode].head = cur.next);
+    while (cur) {
+      prev = cur;
+      cur = cur.next;
+      if (cur.key === key) {
+        prev.next = cur.next;
+        break;
+      }
+    }
+  };
+
+  return { set, get, has, remove, getBucket };
 }
