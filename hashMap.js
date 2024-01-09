@@ -35,7 +35,7 @@ function HashMap() {
   };
 
   const set = (key, value) => {
-    const hashCode = hash(value);
+    const hashCode = hash(key);
     const node = { key, value, next: null };
     if (bucket[hashCode] === undefined) {
       bucket[hashCode] = {
@@ -44,6 +44,7 @@ function HashMap() {
       size += 1;
     } else {
       let cur = bucket[hashCode].head;
+      if (cur.key === key) return (cur.value = value);
       while (cur.next) {
         cur = cur.next;
       }
