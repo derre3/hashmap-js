@@ -97,5 +97,74 @@ function HashMap() {
     }
   };
 
-  return { set, get, has, remove, getBucket };
+  const length = () => {
+    let len = 0;
+    const bucket = getBucket();
+    bucket.forEach((node) => {
+      let cur = node.head;
+      while (cur) {
+        len += 1;
+        cur = cur.next;
+      }
+    });
+    return len;
+  };
+
+  const clear = () => {
+    size = 0;
+    bucketSize = 16;
+    bucket = new Array(bucketSize);
+  };
+
+  const keys = () => {
+    let keysArr = [];
+    const bucket = getBucket();
+    bucket.forEach((node) => {
+      let cur = node.head;
+      while (cur) {
+        keysArr.push(cur.key);
+        cur = cur.next;
+      }
+    });
+    return keysArr;
+  };
+
+  const values = () => {
+    let valuesArr = [];
+    const bucket = getBucket();
+    bucket.forEach((node) => {
+      let cur = node.head;
+      while (cur) {
+        valuesArr.push(cur.value);
+        cur = cur.next;
+      }
+    });
+    return valuesArr;
+  };
+
+  const entries = () => {
+    let entriesArr = [];
+    const bucket = getBucket();
+    bucket.forEach((node) => {
+      let cur = node.head;
+      while (cur) {
+        entriesArr.push([cur.key, cur.value]);
+        cur = cur.next;
+      }
+    });
+    return entriesArr;
+  };
+
+  return {
+    set,
+    get,
+    has,
+    remove,
+    length,
+    clear,
+    keys,
+    values,
+    entries,
+    getBucket,
+  };
 }
