@@ -1,7 +1,7 @@
 function HashMap() {
   const loadFactor = 0.75;
   let size = 0;
-  let bucketSize = 5;
+  let bucketSize = 16;
   let bucket = new Array(bucketSize);
 
   const getSize = () => size;
