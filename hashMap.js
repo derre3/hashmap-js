@@ -77,6 +77,8 @@ function HashMap() {
     return cur ? true : false;
   };
 
+  const has = (key) => (get(key) ? true : false);
+
   const remove = (key) => {
     if (!has(key)) return;
     const hashCode = hash(key);
